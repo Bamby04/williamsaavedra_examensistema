@@ -1,0 +1,27 @@
+# Construir y levantar stack
+docker-compose up -d --build
+
+
+# Ver servicios
+docker-compose ps
+
+
+# Ver logs de un servicio
+docker-compose logs -f api
+
+
+# Probar endpoints
+curl http://localhost:3000/
+# Esperado: {"message":"API examen","service":"api","port":3000}
+
+
+# Probar web (nginx)
+# Abre http://localhost:8080
+
+
+# Ver volúmenes
+docker volume ls
+
+
+# Parar y eliminar
+docker-compose down -v
