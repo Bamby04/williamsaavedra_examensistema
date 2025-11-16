@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  api:
+    build: ./api
+    container_name: api-examen
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - MONGO_URL=mongodb://db:27017/examen
+    depends_on:
+      - db
+    networks:
+      - backend
+
+  web:
+    image: nginx:alpine
+    container_name: web-examen-compose
+    volumes:
+      - ./web:/usr/share/nginx/html:ro
+    ports:
+      - "8080:80"
+    networks:
+      - frontend
+      - backend
+
+  db:
+    image: mongo:6.0
+    container_name: mongo-examen
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=example
+      - MONGO_INITDB_DATABASE=examen
+    volumes:
+      - db-data:/data/db
+    restart: unless-stopped
+    networks:
+      - backend
+
+networks:
+  frontend:
+  backend:
+
+volumes:
+  db-data:
